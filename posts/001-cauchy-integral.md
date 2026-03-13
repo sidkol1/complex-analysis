@@ -333,4 +333,4 @@ As we can see, $g'(z_0) = 2 + 2i = 2z_0$, as we would expect. Alternatively, we 
 
 ![Difference quotient heatmap](assets/diff-quotient-heatmap.png)
 
-Crucially, in sufficiently small circles enclosing $z_0$, the average rate of change between $z_0$ and $w$ is approximately constant. This is what causes the limit $$\lim_{|\Delta{z}| \rightarrow 0}\frac{f(z + \Delta{z}) - f(z)}{\Delta{z}}$$ to exist in the first place. That constraint will prove important later. 
+Crucially, in sufficiently small circles enclosing $z_0$, the average rate of change between $z_0$ and $w$ is approximately constant. This is what causes the limit $$\lim_{z \rightarrow z_0}\frac{f(z) - f(z_0)}{z - z_0}$$ to exist in the first place. That constraint will prove important later. 
