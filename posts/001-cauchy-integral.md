@@ -24,7 +24,7 @@ How can we visualize the limit definition? One way is to imagine the real line w
 
 Since this average rate of change approaches $2$ as $t \rightarrow 1$, we conclude that $f'(1) = 2$. If we want to calculate the derivative of $f$ at a different point, we have to move the yellow dot $x_0$ and repeat this process. The point of calculating $\lim_{t \rightarrow x_0}\frac{f(t) - f(x_0)}{t - x_0}$ is, of course, to approximate $f(x)$ for $x$ close to $x_0$. And this is the notion of derivatives that is easy to generalize to complex numbers. 
 
-Suppose that $g: \mathbb{C} \rightarrow \mathbb{C}$. We would expect the derivative of $g$ at a point $z_0$ to be the averate rate of change in $f$ between $z_0$ and $z_0 + \Delta{z}$ as $|\Delta{z}| \rightarrow 0$. Defining the average rate of change amounts to just swapping some variables for other ones. Between $z_0$ and $z_0 + \Delta{z}$, the average rate of change in $f$ is $\frac{f(z + \Delta{z}) - f(z)}{\Delta{z}}$. 
+Suppose that $g: \mathbb{C} \rightarrow \mathbb{C}$. We would expect the derivative of $g$ at a point $z_0$ to be the averate rate of change in $f$ between $z_0$ and $z_0 + \Delta{z}$ as $|\Delta{z}| \rightarrow 0$. Defining the average rate of change amounts to just swapping some variables for other ones. Between $z_0$ and $z_0 + \Delta{z}$, the average rate of change in $g$ is $\frac{f(z + \Delta{z}) - f(z)}{\Delta{z}}$. 
 
 The above guess is correct. Let's consider $g(z) = z^2$ and its derivative at $z_0 = 1 + i$. Let's calculate the average rate of change between $z_0$ and $w$ and see what happens when $w$ gets close to $z_0$. 
 
