@@ -331,7 +331,7 @@ Try it yourself -- drag the red dot around the complex plane:
   </script>
 </div>
 
-As we can see, $g'(z_0) = 2 + 2i = 2z_0$, as we would expect. Alternatively, we can visualize the average rate of change between $z_0$ and $w$ for all possible choices of $w$ at once. (Heatmaps are often used to visualize complex-valued functions, with hue denoting magnitude and brightness denoting modulus).
+As we can see, $g'(z_0) = 2 + 2i = 2z_0$, as we would expect. Alternatively, we can visualize the average rate of change between $z_0$ and $z$ for all possible choices of $z$ at once. (Heatmaps are often used to visualize complex-valued functions, with hue denoting magnitude and brightness denoting modulus).
 
 ![Difference quotient heatmap](assets/diff-quotient-heatmap.png)
 
