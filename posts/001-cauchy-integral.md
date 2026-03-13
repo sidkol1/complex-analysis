@@ -148,11 +148,11 @@ Try it yourself -- drag the red dot:
   </script>
 </div>
 
-Since $\frac{\Delta{f}}{\Delta{x}} \rightarrow 2$ as $t \rightarrow 1$, we conclude that $f'(1) = 2$. If we want to calculate the derivative of $f$ at a different point, we have to move the yellow dot $x_0$ and repeat this process. The point of calculating $\lim_{t \rightarrow x_0}\frac{f(t) - f(x_0)}{t - x_0}$ is, of course, to approximate $f(x)$ for $x$ close to $x_0$. And this is the notion of derivatives that is easy to generalize to complex numbers. 
+Since $\frac{\Delta{f}}{\Delta{x}} \rightarrow 2$ as $x \rightarrow 1$, we conclude that $f'(1) = 2$. If we want to calculate the derivative of $f$ at a different point, we have to move the yellow dot $x_0$ and repeat this process. The point of calculating $\lim_{x \rightarrow x_0}\frac{f(x) - f(x_0)}{x - x_0}$ is, of course, to approximate $f(x)$ for $x$ close to $x_0$. And this is the notion of derivatives that is easy to generalize to complex numbers. 
 
-Suppose that $g: \mathbb{C} \rightarrow \mathbb{C}$. We would expect the derivative of $g$ at a point $z_0$ to be the averate rate of change in $g$ between $z_0$ and $z_0 + \Delta{z}$ as $|\Delta{z}| \rightarrow 0$. Defining the average rate of change amounts to just swapping some variables for other ones. Between $z_0$ and $z_0 + \Delta{z}$, the average rate of change in $g$ is $\frac{g(z + \Delta{z}) - g(z)}{\Delta{z}}$. 
+Suppose that $g: \mathbb{C} \rightarrow \mathbb{C}$. We would expect the derivative of $g$ at a point $z_0$ to be the averate rate of change in $g$ between $z_0$ and points close to $z_0$ (or more specifically, the limit of this rate of change). Defining the average rate of change in $\mathbb{C}$ amounts to just swapping some variables for other ones in the definition for $\mathbb{R}$. Between $z_0$ and $z$, the average rate of change in $g$ is $\frac{g(z) - g(z_0)}{z - z_0}$. 
 
-The above guess is correct. Let's consider $g(z) = z^2$ and its derivative at $z_0 = 1 + i$. Let's calculate the average rate of change between $z_0$ and $w$ and see what happens when $w$ gets close to $z_0$. 
+The above guess is correct. Let's consider $g(z) = z^2$ and its derivative at $z_0 = 1 + i$. We'll calculate the average rate of change between $z_0$ and $w$ for various choices of $w$, and observe what happens when $w$ gets close to $z_0$. 
 
 ![Complex average rate of change](assets/complex-avg-rate.gif)
 
@@ -329,7 +329,7 @@ Try it yourself -- drag the red dot around the complex plane:
   </script>
 </div>
 
-As we can see, $g'(z_0) = 2 + 2i = 2z_0$, as we would expect. Alternatively, we can visualize the average rate of change between $z_0$ and $w$ for all possible choices of $w$ at once.
+As we can see, $g'(z_0) = 2 + 2i = 2z_0$, as we would expect. Alternatively, we can visualize the average rate of change between $z_0$ and $w$ for all possible choices of $w$ at once. (Heatmaps are often used to visualize complex-valued functions, with hue denoting magnitude and brightness denoting modulus).
 
 ![Difference quotient heatmap](assets/diff-quotient-heatmap.png)
 
