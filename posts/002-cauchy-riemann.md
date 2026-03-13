@@ -170,4 +170,4 @@ No matter how much we zoom in on $x_0 = 0$ the ratio $\frac{\Delta{f}}{\Delta{x}
   </script>
 </div>
 
-Thus, for a function $f: \mathbb{R} \rightarrow \mathbb{R}$ to be differentiable at $x_0$ we must have that $\frac{\Delta{f}}{\Delta{x}}$ is approximately the same whether we take $x = x_0 + \varepesilon$ or $x = x_0 - \varepsilon$. 
+Thus, for a function $f: \mathbb{R} \rightarrow \mathbb{R}$ to be differentiable at $x_0$ we must have that $\frac{\Delta{f}}{\Delta{x}}$ is approximately the same whether we take $x = x_0 + \varepsilon$ or $x = x_0 - \varepsilon$. 
