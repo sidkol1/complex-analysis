@@ -24,16 +24,16 @@ class AvgRateOfChange(Scene):
             lambda: Dot(number_line.n2p(t_val.get_value()), color=RED, z_index=1)
         )
         t_label = always_redraw(
-            lambda: MathTex("t", color=RED).next_to(
+            lambda: MathTex("x", color=RED).next_to(
                 number_line.n2p(t_val.get_value()), DOWN + LEFT * 0.5
             )
         )
 
         # f(x) = x^2, so (f(t) - f(x0)) / (t - x0) = t + x0
         rate_label = always_redraw(lambda: MathTex(
-            f"{t_val.get_value() + x0:.2f}",
+            r"\frac{\Delta f}{\Delta x} = " + f"{t_val.get_value() + x0:.2f}",
             color=WHITE,
-        ).next_to(number_line.n2p(t_val.get_value()), UP, buff=0.4))
+        ).to_corner(UR))
 
         self.play(FadeIn(t_dot), FadeIn(t_label), FadeIn(rate_label))
         self.wait(0.5)
