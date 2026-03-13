@@ -1,0 +1,125 @@
+<div class="interactive-complex-plane" style="position:relative; margin:1.5em 0;">
+  <div id="cp-readout" style="text-align:right; margin-bottom:0.4em; font-size:1.1em; min-height:1.6em;"></div>
+  <svg id="cp-svg" width="100%" viewBox="0 0 500 500" style="display:block; cursor:default; user-select:none;">
+    <!-- axes -->
+    <line x1="30" y1="250" x2="470" y2="250" stroke="#222" stroke-width="1.2"/>
+    <polygon points="470,250 463,246 463,254" fill="#222"/>
+    <line x1="250" y1="470" x2="250" y2="30" stroke="#222" stroke-width="1.2"/>
+    <polygon points="250,30 246,37 254,37" fill="#222"/>
+    <!-- axis labels -->
+    <text x="480" y="254" font-size="13" fill="#666" font-family="Georgia, serif">Re</text>
+    <text x="254" y="22" font-size="13" fill="#666" font-family="Georgia, serif">Im</text>
+    <!-- ticks -->
+    <g id="cp-ticks"></g>
+    <!-- z0 dot -->
+    <circle cx="0" cy="0" r="6" fill="#e8c840" id="cp-z0-dot"/>
+    <text id="cp-z0-label" x="0" y="0" font-size="14" font-style="italic" fill="#e8c840" font-family="Georgia, serif">z₀</text>
+    <!-- draggable z dot -->
+    <circle cx="0" cy="0" r="7" fill="#e05050" id="cp-z-dot" style="cursor:grab;"/>
+    <text id="cp-z-label" x="0" y="0" font-size="14" font-style="italic" fill="#e05050" font-family="Georgia, serif">z</text>
+  </svg>
+  <script>
+  (function() {
+    const svg = document.getElementById('cp-svg');
+    const readout = document.getElementById('cp-readout');
+    const zDot = document.getElementById('cp-z-dot');
+    const zLabel = document.getElementById('cp-z-label');
+    const z0Dot = document.getElementById('cp-z0-dot');
+    const z0Label = document.getElementById('cp-z0-label');
+    const ticksG = document.getElementById('cp-ticks');
+
+    const vMin = -3, vMax = 4;
+    const pxMin = 30, pxMax = 470;
+    const z0Re = 1, z0Im = 1;
+    let zRe = 3, zIm = 0;
+
+    function toSvgX(v) { return pxMin + (v - vMin) / (vMax - vMin) * (pxMax - pxMin); }
+    function toSvgY(v) { return pxMax - (v - vMin) / (vMax - vMin) * (pxMax - pxMin); }
+    function fromSvgX(px) { return vMin + (px - pxMin) / (pxMax - pxMin) * (vMax - vMin); }
+    function fromSvgY(py) { return vMin + (pxMax - py) / (pxMax - pxMin) * (vMax - vMin); }
+
+    // draw ticks on both axes
+    for (let t = vMin; t <= vMax; t++) {
+      // x-axis tick
+      let px = toSvgX(t);
+      let tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      tick.setAttribute('x1', px); tick.setAttribute('x2', px);
+      tick.setAttribute('y1', 246); tick.setAttribute('y2', 254);
+      tick.setAttribute('stroke', '#222'); tick.setAttribute('stroke-width', '1');
+      ticksG.appendChild(tick);
+      if (t !== 0) {
+        let label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', px); label.setAttribute('y', 268);
+        label.setAttribute('text-anchor', 'middle'); label.setAttribute('font-size', '11');
+        label.setAttribute('fill', '#888'); label.setAttribute('font-family', 'Georgia, serif');
+        label.textContent = t;
+        ticksG.appendChild(label);
+      }
+      // y-axis tick
+      let py = toSvgY(t);
+      tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      tick.setAttribute('x1', 246); tick.setAttribute('x2', 254);
+      tick.setAttribute('y1', py); tick.setAttribute('y2', py);
+      tick.setAttribute('stroke', '#222'); tick.setAttribute('stroke-width', '1');
+      ticksG.appendChild(tick);
+      if (t !== 0) {
+        let label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', 240); label.setAttribute('y', py + 4);
+        label.setAttribute('text-anchor', 'end'); label.setAttribute('font-size', '11');
+        label.setAttribute('fill', '#888'); label.setAttribute('font-family', 'Georgia, serif');
+        label.textContent = t;
+        ticksG.appendChild(label);
+      }
+    }
+
+    function update() {
+      zDot.setAttribute('cx', toSvgX(zRe));
+      zDot.setAttribute('cy', toSvgY(zIm));
+      zLabel.setAttribute('x', toSvgX(zRe) - 12);
+      zLabel.setAttribute('y', toSvgY(zIm) + 18);
+
+      z0Dot.setAttribute('cx', toSvgX(z0Re));
+      z0Dot.setAttribute('cy', toSvgY(z0Im));
+      z0Label.setAttribute('x', toSvgX(z0Re) - 12);
+      z0Label.setAttribute('y', toSvgY(z0Im) + 18);
+
+      // g(z) = z^2, difference quotient = z + z0
+      const re = zRe + z0Re;
+      const im = zIm + z0Im;
+      const sign = im >= 0 ? '+' : '-';
+      readout.innerHTML = katex.renderToString(
+        '\\frac{\\Delta g}{\\Delta z} = ' + re.toFixed(2) + ' ' + sign + ' ' + Math.abs(im).toFixed(2) + 'i',
+        { throwOnError: false }
+      );
+    }
+
+    // drag handling
+    let dragging = false;
+    function startDrag(e) { dragging = true; zDot.style.cursor = 'grabbing'; e.preventDefault(); }
+    function endDrag() { dragging = false; zDot.style.cursor = 'grab'; }
+    function onMove(e) {
+      if (!dragging) return;
+      const pt = svg.createSVGPoint();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      pt.x = clientX; pt.y = clientY;
+      const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+      zRe = Math.max(vMin, Math.min(vMax, fromSvgX(svgP.x)));
+      zIm = Math.max(vMin, Math.min(vMax, fromSvgY(svgP.y)));
+      if (Math.abs(zRe - z0Re) < 0.08 && Math.abs(zIm - z0Im) < 0.08) {
+        zRe = z0Re + 0.08;
+      }
+      update();
+    }
+
+    zDot.addEventListener('mousedown', startDrag);
+    zDot.addEventListener('touchstart', startDrag, { passive: false });
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onMove, { passive: false });
+    window.addEventListener('mouseup', endDrag);
+    window.addEventListener('touchend', endDrag);
+
+    update();
+  })();
+  </script>
+</div>

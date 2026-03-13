@@ -1,0 +1,89 @@
+<div class="interactive-real-line" style="position:relative; margin:1.5em 0;">
+  <div id="rl-readout" style="text-align:right; margin-bottom:0.4em; font-size:1.1em; min-height:1.6em;"></div>
+  <svg id="rl-svg" width="100%" viewBox="0 0 600 80" style="display:block; cursor:default; user-select:none;">
+    <!-- axis -->
+    <line x1="40" y1="40" x2="560" y2="40" stroke="#222" stroke-width="1.5"/>
+    <polygon points="560,40 553,36 553,44" fill="#222"/>
+    <!-- ticks and labels -->
+    <g id="rl-ticks"></g>
+    <!-- x0 dot -->
+    <circle cx="0" cy="40" r="6" fill="#e8c840" id="rl-x0-dot"/>
+    <text id="rl-x0-label" x="0" y="68" text-anchor="end" font-size="14" font-style="italic" fill="#e8c840" font-family="Georgia, serif">x₀</text>
+    <!-- draggable x dot -->
+    <circle cx="0" cy="40" r="7" fill="#e05050" id="rl-x-dot" style="cursor:grab;"/>
+    <text id="rl-x-label" x="0" y="68" text-anchor="end" font-size="14" font-style="italic" fill="#e05050" font-family="Georgia, serif">x</text>
+  </svg>
+  <script>
+  (function() {
+    const svg = document.getElementById('rl-svg');
+    const readout = document.getElementById('rl-readout');
+    const xDot = document.getElementById('rl-x-dot');
+    const xLabel = document.getElementById('rl-x-label');
+    const x0Dot = document.getElementById('rl-x0-dot');
+    const x0Label = document.getElementById('rl-x0-label');
+    const ticksG = document.getElementById('rl-ticks');
+
+    const xMin = -2, xMax = 4;
+    const pxLeft = 40, pxRight = 550;
+    const x0 = 1;
+    let xVal = 3;
+
+    function toSvgX(v) { return pxLeft + (v - xMin) / (xMax - xMin) * (pxRight - pxLeft); }
+    function fromSvgX(px) { return xMin + (px - pxLeft) / (pxRight - pxLeft) * (xMax - xMin); }
+
+    // draw ticks
+    for (let t = xMin; t <= xMax; t++) {
+      const px = toSvgX(t);
+      const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      tick.setAttribute('x1', px); tick.setAttribute('x2', px);
+      tick.setAttribute('y1', 35); tick.setAttribute('y2', 45);
+      tick.setAttribute('stroke', '#222'); tick.setAttribute('stroke-width', '1');
+      ticksG.appendChild(tick);
+      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      label.setAttribute('x', px); label.setAttribute('y', 28);
+      label.setAttribute('text-anchor', 'middle'); label.setAttribute('font-size', '12');
+      label.setAttribute('fill', '#666'); label.setAttribute('font-family', 'Georgia, serif');
+      label.textContent = t;
+      ticksG.appendChild(label);
+    }
+
+    function update() {
+      xDot.setAttribute('cx', toSvgX(xVal));
+      xLabel.setAttribute('x', toSvgX(xVal) - 10);
+      x0Dot.setAttribute('cx', toSvgX(x0));
+      x0Label.setAttribute('x', toSvgX(x0) - 10);
+
+      const rate = xVal + x0;
+      readout.innerHTML = katex.renderToString(
+        '\\frac{\\Delta f}{\\Delta x} = ' + rate.toFixed(2),
+        { throwOnError: false }
+      );
+    }
+
+    // drag handling
+    let dragging = false;
+    function startDrag(e) { dragging = true; xDot.style.cursor = 'grabbing'; e.preventDefault(); }
+    function endDrag() { dragging = false; xDot.style.cursor = 'grab'; }
+    function onMove(e) {
+      if (!dragging) return;
+      const pt = svg.createSVGPoint();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      pt.x = clientX; pt.y = clientY;
+      const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+      xVal = Math.max(xMin, Math.min(xMax, fromSvgX(svgP.x)));
+      if (Math.abs(xVal - x0) < 0.05) xVal = x0 + 0.05;
+      update();
+    }
+
+    xDot.addEventListener('mousedown', startDrag);
+    xDot.addEventListener('touchstart', startDrag, { passive: false });
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onMove, { passive: false });
+    window.addEventListener('mouseup', endDrag);
+    window.addEventListener('touchend', endDrag);
+
+    update();
+  })();
+  </script>
+</div>

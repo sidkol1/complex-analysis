@@ -110,13 +110,43 @@ def parse_post(path: Path) -> dict:
 
 
 def md_to_html(md: str) -> str:
-    """Bare-minimum markdown to HTML. Handles headers, paragraphs, bold, images, inline code."""
+    """Bare-minimum markdown to HTML. Handles headers, paragraphs, bold, images, inline code, and raw HTML blocks."""
     lines = md.split("\n")
     html_parts = []
     in_paragraph = False
+    in_html_block = False
+    html_block_lines = []
+    html_block_depth = 0
+    html_block_tag = ""
 
     for line in lines:
         stripped = line.strip()
+
+        # Raw HTML block passthrough: accumulate lines between opening and closing tags
+        if in_html_block:
+            html_block_lines.append(line)
+            html_block_depth += len(re.findall(rf"<{html_block_tag}[\s>]", line))
+            html_block_depth -= len(re.findall(rf"</{html_block_tag}>", line))
+            if html_block_depth <= 0:
+                html_parts.append("\n".join(html_block_lines))
+                html_block_lines = []
+                in_html_block = False
+            continue
+
+        if m := re.match(r"^<(div|style|script|section)[\s>]", stripped):
+            if in_paragraph:
+                html_parts.append("</p>")
+                in_paragraph = False
+            html_block_tag = m.group(1)
+            html_block_depth = 1
+            html_block_depth -= len(re.findall(rf"</{html_block_tag}>", stripped))
+            html_block_lines = [line]
+            if html_block_depth <= 0:
+                html_parts.append("\n".join(html_block_lines))
+                html_block_lines = []
+            else:
+                in_html_block = True
+            continue
 
         if not stripped:
             if in_paragraph:
