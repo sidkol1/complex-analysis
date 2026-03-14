@@ -30,9 +30,9 @@
 <body>
 <div class="home"><a href="index.html">&larr; all posts</a></div>
 <h1>Complex Differentiation</h1>
-<div class="date">2026-03-12</div>
+<div class="date">2026-01-12</div>
 <p>
-When I ask people to explain what it might mean to take the derivative of a function $g:\mathbb{C}\rightarrow\mathbb{C}$, they sometimes muse about slopes of planes in four-dimensional-space. This mistake happens because they are overly commited to one of many possible conceptions of a <em>derivative</em>.
+When I ask people to explain what it might mean to take the derivative of a function $g:\mathbb{C}\rightarrow\mathbb{C}$, they sometimes muse about slopes of planes in four-dimensional-space. This mistake happens because they are overly committed to one of many possible conceptions of a <em>derivative</em>.
 </p>
 <p>
 Indeed, there are many ways to mentally model the idea of a derivative. According to one such model, the derivative of a function $f: \mathbb{R}\rightarrow\mathbb{R}$ at a point $x_0$ is the slope of the tangent line of $f$ at $x_0$.
@@ -45,10 +45,10 @@ Displayed below is the derivative of $x^2$ at a point $x_0$, denoted by a yellow
 This notion of a derivative makes many unnecessary assumptions about $f$. For one, it assumes $f$ has a <em>graph</em>, and that a point on this graph can be associated with its <em>tangent</em> line. Both of these assumptions fail to generalize to higher dimensions and to complex numbers.
 </p>
 <p>
-For this reason, I prefer the equivalent <em>limit</em> definition of a derivative. On this view, the derivative of $f$ at $x_0$ is the average rate of change of $f$ between $x_0$ and points close to $x_0$. (If this seems unfamiliar, recall that the average rate of change in $f$ between $x_0$ and $x$ is $\frac{f(x) - f(x_0)}{x - x_0})$.
+For this reason, I prefer the equivalent <em>limit</em> definition of a derivative. On this view, the derivative of $f$ at $x_0$ is the average rate of change of $f$ between $x_0$ and points close to $x_0$. (If this seems unfamiliar, recall that the average rate of change in $f$ between $x_0$ and $x$ is $\frac{f(x) - f(x_0)}{x - x_0}$).
 </p>
 <p>
-In other words, the choice of a point $x_0$ induces a single-variable difference function $R_{x_0}(x) := \frac{f(x) - f(x_0)}{x - x_0}$. (When the choice of $x_0$ and $x$ are clear from context, we will refer to this quantity with the notation $\frac{\Delta{f}}{\Delta{x}}$). The quantity $f'(x_0)$ is the value assumed by this difference function throughout small neighborhoods of $x_0$.
+In other words, the choice of a point $x_0$ induces a single-variable difference function of $x$, $\frac{f(x) - f(x_0)}{x - x_0}$. (When the choice of $x_0$ and $x$ are clear from context, we will refer to this quantity with the notation $\frac{\Delta{f}}{\Delta{x}}$). The quantity $f'(x_0)$ is the value assumed by this difference function throughout small neighborhoods of $x_0$.
 </p>
 <p>
 How can we make intuitive sense of the limit definition? One way is to imagine the real line with a point $x_0$ fixed. Now for each number $x \neq x_0$, we can calculate the average rate of change in $f$ between $x$ and $x_0$. The derivative is the limit of this rate as $x \rightarrow x_0$ (the "rate-of-change-function" has a hole at $x = x_0$, which does not pose an issue for finding its <em>limit</em>). If $f(x) = x^2$ and we want to calculate $f'(1)$, we get the following:
@@ -213,10 +213,10 @@ Try it yourself by dragging the red dot corresponding to $x$:
   </script>
 </div>
 <p>
-Since $\frac{\Delta{f}}{\Delta{x}} \rightarrow 2$ as $x \rightarrow 1$, we conclude that $f'(1) = 2$. If we want to calculate the derivative of $f$ at a different point, we have to move the yellow dot $x_0$ and repeat this process. The point of calculating $\lim_{x \rightarrow x_0}\frac{f(x) - f(x_0)}{x - x_0}$ is, of course, to approximate $f(x)$ for $x$ close to $x_0$. And this is the notion of derivatives that is easy to generalize to complex numbers.
+Notice how the displayed rate settles to a single value as $x$ approaches $x_0$. Since $\frac{\Delta{f}}{\Delta{x}} \rightarrow 2$ as $x \rightarrow 1$, we conclude that $f'(1) = 2$. If we want to calculate the derivative of $f$ at a different point, we have to move the yellow dot $x_0$ and repeat this process. The point of calculating $\lim_{x \rightarrow x_0}\frac{f(x) - f(x_0)}{x - x_0}$ is, of course, to approximate $f(x)$ for $x$ close to $x_0$. And this is the notion of derivatives that is easy to generalize to complex numbers.
 </p>
 <p>
-Suppose that $g: \mathbb{C} \rightarrow \mathbb{C}$. We would expect the derivative of $g$ at a point $z_0$ to be the averate rate of change in $g$ between $z_0$ and points close to $z_0$ (or more specifically, the limit of this rate of change). Defining the average rate of change in $\mathbb{C}$ amounts to just swapping some variables for other ones in the definition for $\mathbb{R}$. Between $z_0$ and $z$, the average rate of change in $g$ is $\frac{g(z) - g(z_0)}{z - z_0}$.
+Suppose that $g: \mathbb{C} \rightarrow \mathbb{C}$. We would expect the derivative of $g$ at a point $z_0$ to be the average rate of change in $g$ between $z_0$ and points close to $z_0$ (or more specifically, the limit of this rate of change). Defining the average rate of change in $\mathbb{C}$ amounts to just swapping some variables for other ones in the definition for $\mathbb{R}$. Between $z_0$ and $z$, the average rate of change in $g$ is $\frac{g(z) - g(z_0)}{z - z_0}$.
 </p>
 <p>
 Fortunately, the above guess is correct. Let's consider $g(z) = z^2$ and its derivative at $z_0 = 1 + i$. We'll calculate the average rate of change between $z_0$ and $z$ for various choices of $z$, and observe what happens when $z$ gets close to $z_0$.
@@ -438,7 +438,10 @@ Try it yourself by dragging the red dot corresponding to $z$ around the complex 
   </script>
 </div>
 <p>
-As we can see, $g'(z_0) = 2 + 2i = 2z_0$, as we would expect. Alternatively, we can visualize the average rate of change between $z_0$ and $z$ for all possible choices of $z$ at once. Below is a plot of the difference function induced by the choice of $z_0$. (Heatmaps are often used to visualize complex-valued functions, with hue denoting magnitude and brightness denoting modulus).
+For $z_0 = 1 + i$, we see the rate converge to $2 + 2i$ as we move $z$ towards $z_0$ along any path of our choice. Thus,  $g'(z_0) = 2 + 2i = 2z_0$, as we would expect.
+</p>
+<p>
+Notice that $z$ can approach $z_0$ from any direction. So to be sure, we should visualize the average rate of change between $z_0$ and $z$ for all possible choices of $z$ at once. Below is a plot of the difference function induced by $z_0 = 1 + i$. (Heatmaps are often used to visualize complex-valued functions, with hue denoting argument and brightness denoting magnitude).
 </p>
 <img src="assets/diff-quotient-heatmap.png" alt="Difference quotient heatmap">
 <p>

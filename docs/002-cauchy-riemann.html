@@ -30,12 +30,12 @@
 <body>
 <div class="home"><a href="index.html">&larr; all posts</a></div>
 <h1>Cauchy-Riemann Equations</h1>
-<div class="date">2026-03-13</div>
+<div class="date">2026-01-13</div>
 <p>
 So the derivative of a complex-valued function $g$ at $z_0$ is the complex number approached by $\frac{\Delta{g}}{\Delta{z}}$ as $\Delta{z} \rightarrow 0$. With this in mind, we should note that the derivative of a function $g$ need not exist at $z_0$.
 </p>
 <p>
-To see why, consider the classic example of $f:\mathbb{R} \rightarrow \mathbb{R}$ by $f(x) = |x|$. As before, we'll position $x_0$ at $0$ and think about what happens to $\frac{\Delta{f}}{\Delta{x}}$ as $x \rightarrow 0$.
+Before we examine what this constraint looks like in $\mathbb{C}$, let's recall what non-differentiability looks like in $\mathbb{R}$. Consider the classic example of $f:\mathbb{R} \rightarrow \mathbb{R}$ by $f(x) = |x|$. As before, we'll position $x_0$ at $0$ and think about what happens to $\frac{\Delta{f}}{\Delta{x}}$ as $x \rightarrow 0$.
 </p>
 <img src="assets/abs-rate-of-change.gif" alt="Absolute value rate of change">
 <p>
@@ -200,22 +200,112 @@ No matter how much we zoom in on $x_0 = 0$ the ratio $\frac{\Delta{f}}{\Delta{x}
   </script>
 </div>
 <p>
-Thus, for a function $f: \mathbb{R} \rightarrow \mathbb{R}$ to be differentiable at $x_0$, we must have that $\frac{\Delta{f}}{\Delta{x}}$ is approximately equal, whether we take $x = x_0 + \varepsilon$ or $x = x_0 - \varepsilon$ (for small $\varepsilon > 0$).
+Thus, for a function $f: \mathbb{R} \rightarrow \mathbb{R}$ to be differentiable at $x_0$, we must have that $\frac{\Delta{f}}{\Delta{x}}$ is approximately equal, whether we take $x = x_0 + \varepsilon$ or $x = x_0 - \varepsilon$ (for small $\varepsilon > 0$). In $\mathbb{R}$, there are only two directions from which $x$ can approach $x_0$. In $\mathbb{C}$, $z$ can approach $z_0$ from infinitely many directions, making this constraint much stronger.
 </p>
 <p>
-In $\mathbb{C}$, a similar constraint applies. Let $z \longleftrightarrow (x, y)$ with $x = \text{Re}(z)$ and $y = \text{Im}(z)$. Also, let $g: \mathbb{C} \rightarrow \mathbb{C}$ with $g(z) = u(x, y) + iv(x, y)$, where $u(x, y) = \Re(g(z))$ and $v(x, y) = \Im(g(z))$. Note that formally, $u: \mathbb{R}^2 \rightarrow \mathbb{R}$ and $v: \mathbb{R}^2 \rightarrow \mathbb{R}$.
+Now let $g: \mathbb{C} \rightarrow \mathbb{C}$, and write $g(z) = u(x, y) + iv(x, y)$, where $z = x + iy$ and $u, v: \mathbb{R}^2 \rightarrow \mathbb{R}$ are the real and imaginary parts of $g$.
 </p>
 <p>
-The problem often arises of explaining exactly when a particular situation occurs in terms of conditions that are easier to check or understand. A common technique in math is to first assume that the situation at hand occurs, and deducing which conditions must hold as a consequence. We then boldly conjecture that these conditions are also sufficient to produce the situation, and learn exactly when that situation occurs, as desired.
+We want conditions on $g$ equivalent to differentiability. One natural strategy is to assume that differentiability holds, and deduce what must follow.
 </p>
 <p>
-We do that here. First, suppose $g(z) = u(x, y) + iv(x, y)$ is differentiable. Then $u(x, y)$ and $v(x, y)$ must have first-order partial derivatives. (If you want to try proving why, submit your proof or a sketch of one below, and it will be graded by an LLM or click to reveal the answer!)
+We do that here. First, suppose $g(z) = u(x, y) + iv(x, y)$ is differentiable at $z_0$. Then $u(x, y)$ and $v(x, y)$ must have first-order partial derivatives. (If you want to try proving why, submit your proof or a sketch of one below, and it will be graded by an LLM, or click to reveal the answer!)
 </p>
+<div class="proof-form" style="margin:1.5em 0; border:1px solid #ddd; border-radius:6px; padding:1.2em;">
+  <div style="font-size:0.95em; margin-bottom:0.6em; color:#555;">Prove that if $g$ is complex-differentiable at $z_0$, then $u$ and $v$ have first-order partial derivatives at $(x_0, y_0)$.</div>
+  <textarea id="proof-input" rows="5" placeholder="Write your proof here (you can use LaTeX with $...$)" style="width:100%; box-sizing:border-box; font-family:Georgia,serif; font-size:0.95em; padding:0.6em; border:1px solid #ccc; border-radius:4px; resize:vertical;"></textarea>
+  <div id="proof-preview" style="margin-top:0.6em; font-size:0.95em; line-height:1.5; padding:0.8em; background:#f8f8f8; border-radius:4px; display:none;"><span style="font-style:italic; color:#888;">Preview:</span> <span id="proof-preview-content"></span></div>
+  <div style="margin-top:0.6em; display:flex; gap:0.8em; align-items:center; flex-wrap:wrap;">
+    <button id="proof-submit" style="font-family:Georgia,serif; font-size:0.9em; padding:0.4em 1.2em; border:1px solid #888; border-radius:4px; background:#fdfdfd; cursor:pointer;">Submit for grading</button>
+    <button id="proof-reveal" style="font-family:Georgia,serif; font-size:0.9em; padding:0.4em 1.2em; border:1px solid #888; border-radius:4px; background:#fdfdfd; cursor:pointer;">Reveal answer</button>
+    <span id="proof-loading" style="font-size:0.85em; color:#888; display:none;">Grading...</span>
+  </div>
+  <div id="proof-feedback" style="margin-top:1em; font-size:0.95em; line-height:1.5; display:none; padding:0.8em; background:#f8f8f8; border-radius:4px;"></div>
+  <div id="proof-answer" style="margin-top:1em; font-size:0.95em; line-height:1.5; display:none; padding:0.8em; background:#f8f8f8; border-radius:4px;"></div>
+  <script>
+  (function() {
+    var input = document.getElementById('proof-input');
+    var submitBtn = document.getElementById('proof-submit');
+    var revealBtn = document.getElementById('proof-reveal');
+    var loading = document.getElementById('proof-loading');
+    var feedback = document.getElementById('proof-feedback');
+    var answer = document.getElementById('proof-answer');
+    var context = 'Prove that if g: C -> C is complex-differentiable at z_0, then u(x,y) = Re(g) and v(x,y) = Im(g) have first-order partial derivatives at (x_0, y_0) where z_0 = x_0 + iy_0.';
+    var GEMINI_KEY = 'AIzaSyBccV8Zk362EmPApk-ffOWcPvuBu0Lourc';
+    var GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_KEY;
+    var SYSTEM_PROMPT = 'You are a concise, friendly math grader for a complex analysis blog. The student has submitted a proof or proof sketch. Give feedback in 1-3 sentences: say whether the argument is correct, and if not, give a brief hint. Use LaTeX notation with $...$ for inline math and $$...$$ for display math. Do not give away the full answer.';
+    var preview = document.getElementById('proof-preview');
+    var previewContent = document.getElementById('proof-preview-content');
+    var previewTimer = null;
+    input.addEventListener('input', function() {
+      clearTimeout(previewTimer);
+      previewTimer = setTimeout(function() {
+        var text = input.value.trim();
+        if (!text) { preview.style.display = 'none'; return; }
+        previewContent.textContent = text;
+        renderMathInElement(previewContent, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false}
+          ]
+        });
+        preview.style.display = '';
+      }, 200);
+    });
+
+    submitBtn.addEventListener('click', function() {
+      var proof = input.value.trim();
+      if (!proof) return;
+      loading.style.display = '';
+      feedback.style.display = 'none';
+      submitBtn.disabled = true;
+      fetch(GEMINI_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          system_instruction: {parts: [{text: SYSTEM_PROMPT}]},
+          contents: [{parts: [{text: 'The question is: ' + context + '\n\nThe student\'s response:\n' + proof}]}]
+        })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var text = data.candidates && data.candidates[0] && data.candidates[0].content.parts[0].text;
+        feedback.innerHTML = text || 'No response received.';
+        renderMathInElement(feedback, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false}
+          ]
+        });
+        feedback.style.display = '';
+      })
+      .catch(function(e) { feedback.textContent = 'Error: ' + e.message; feedback.style.display = ''; })
+      .finally(function() { loading.style.display = 'none'; submitBtn.disabled = false; });
+    });
+
+    var revealed = false;
+    revealBtn.addEventListener('click', function() {
+      if (revealed) { answer.style.display = 'none'; revealed = false; revealBtn.textContent = 'Reveal answer'; return; }
+      answer.innerHTML = 'Since $g$ is differentiable at $z_0$, the limit $\\lim_{\\Delta z \\to 0} \\frac{g(z_0 + \\Delta z) - g(z_0)}{\\Delta z}$ exists. '
+        + 'In particular, it exists when $\\Delta z = \\Delta t$ (real) and when $\\Delta z = i\\Delta t$ (imaginary). '
+        + 'Taking $\\Delta z = \\Delta t \\in \\mathbb{R}$, we get $g\'(z_0) = \\lim_{\\Delta t \\to 0} \\frac{u(x_0+\\Delta t, y_0) - u(x_0,y_0)}{\\Delta t} + i\\frac{v(x_0+\\Delta t, y_0) - v(x_0,y_0)}{\\Delta t}$. '
+        + 'Since this limit exists (it equals $g\'(z_0)$), both real and imaginary parts converge, giving $\\frac{\\partial u}{\\partial x}$ and $\\frac{\\partial v}{\\partial x}$. '
+        + 'Taking $\\Delta z = i\\Delta t$ similarly yields $\\frac{\\partial u}{\\partial y}$ and $\\frac{\\partial v}{\\partial y}$.';
+      renderMathInElement(answer, {
+        delimiters: [
+          {left: "$$", right: "$$", display: true},
+          {left: "$", right: "$", display: false}
+        ]
+      });
+      answer.style.display = '';
+      revealed = true;
+      revealBtn.textContent = 'Hide answer';
+    });
+  })();
+  </script>
+</div>
 <p>
-Now $\frac{\Delta{g}}{\Delta{z}} = \frac{\Delta{u} + \Delta{iv}}{\Delta{z}}$.
-</p>
-<p>
-Now zoom in on $z_0$. We let $\Delta{t} > 0$ be small, and note that $\frac{\Delta{g}}{\Delta{z}}$ should be approximately equal, whether we take $z = z_0 + i\Delta{t}$ or $z = z_0 + t$.
+Now $\frac{\Delta{g}}{\Delta{z}} = \frac{\Delta{u} + i\Delta{v}}{\Delta{z}}$. Recall that for $g'(z_0)$ to exist, this must converge to the same value no matter how $z \to z_0$. Let $\Delta{t} > 0$ be small, and note that $\frac{\Delta{g}}{\Delta{z}}$ should be approximately equal, whether we take $z = z_0 + i\Delta{t}$ or $z = z_0 + \Delta{t}$.
 </p>
 <p>
 If we take $z = z_0 + \Delta{t}$, we have
@@ -228,7 +318,7 @@ $$\begin{equation*}
  
 &= \frac{\Delta{u}}{\Delta{t}} + i\frac{\Delta{v}}{\Delta{t}} \\
  
-&= \frac{\partial{u}}{\partial{x}} + i\frac{\partial{v}}{\partial{x}}
+&\xrightarrow{\Delta{t} \to 0} \frac{\partial{u}}{\partial{x}} + i\frac{\partial{v}}{\partial{x}}
  
 \end{split}
  
@@ -245,17 +335,17 @@ $$\begin{equation*}
  
 &= -i\frac{\Delta{u}}{\Delta{t}} + \frac{\Delta{v}}{\Delta{t}} \\
  
-&= -i\frac{\partial{u}}{\partial{y}} + \frac{\partial{v}}{\partial{y}}
+&\xrightarrow{\Delta{t} \to 0} -i\frac{\partial{u}}{\partial{y}} + \frac{\partial{v}}{\partial{y}}
  
 \end{split}
  
 \end{equation*}.$$
 </p>
 <p>
-Setting real and imaginary parts equal in the above two equations, we obtain $$\frac{\partial{u}}{\partial{x}} = \frac{\partial{v}}{\partial{y}}$$ and $$\frac{\partial{v}}{\partial{x}} = -\frac{\partial{u}}{\partial{y}}.$$ These two conditions constitute the <strong>Cauchy-Riemann Equations</strong>.
+Since both expressions equal $g'(z_0)$, they must equal each other. Equating real and imaginary parts, we obtain $$\frac{\partial{u}}{\partial{x}} = \frac{\partial{v}}{\partial{y}}$$ and $$\frac{\partial{v}}{\partial{x}} = -\frac{\partial{u}}{\partial{y}}.$$ These two conditions constitute the <strong>Cauchy-Riemann Equations</strong>.
 </p>
 <p>
-In the next post, we will show that these necessary conditions are (basically) sufficient.
+Notice that we only checked two directions of approach — horizontal and vertical. It turns out these two suffice! Checking other directions yields no new equations, since $\frac{\Delta g}{\Delta z}$ along any direction can be expressed in terms of the same four partial derivatives. In the next post, we will prove that these necessary conditions are sufficient, provided the partial derivatives of $u$ and $v$ are continuous.
 </p>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <script>
